@@ -23,6 +23,8 @@ No *criarLista(){
 	return inicio;
 }
 
+int 
+
 
 void main(){
 
