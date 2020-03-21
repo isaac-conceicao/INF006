@@ -10,7 +10,7 @@ struct no{
 
 typedef struct no No;
 
-No *criarLista(){
+No *criar(){
 
 	No *inicio = (No*)malloc(sizeof(No));
 
@@ -18,15 +18,15 @@ No *criarLista(){
 		return NULL;
 
 	inicio->anterior = NULL;
-	inicio->proximo = inicio;
+	inicio->proximo = NULL;
 
 	return inicio;
 }
 
-int 
-
-
 void main(){
 
+	No *inicio = criar();
 
+	
 }
+
