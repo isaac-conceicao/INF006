@@ -52,10 +52,69 @@ int inserirInicio(No **inicio, int valor){
 		*inicio = novo; // novo passa a ser o primeiro da lista
 	}
 
+	return 1;
+
+ }
+
+ int inserirOrdenado(No **inicio, int valor){
+
+ 	if (inicio == NULL)
+ 		return 0;
+
+ 	No *novo = (No*)malloc(sizeof(No));
+
+ 	if (novo == NULL)
+ 		return 0;
+
+ 	novo-conteudo = valor;
+
+ 	if ((*inicio) == NULL){ // Lista vazia, então insere no inicio
+
+ 		*inicio = novo;
+ 		novo->anterior = NULL;
+ 		novo->proximo = novo;
+
+ 		return 1;
+ 	
+ 	}else{
+
+ 		if ((*lista)->conteudo > valor){ // encontrou no inicio
+
+ 			No *atual = *inicio;
+
+ 			while(atual->proximo != (*lista)) // procura o último
+ 				atual = atual->proximo;
+
+ 			novo->anterior = atual->proximo;
+ 			novo->proximo = *lista;
+ 			atual->proximo = novo;
+
+ 			*lista = novo;
+
+ 			return 1;
+ 		}
+
+ 		No *ant = *inicio;
+ 		No *atual = (*inicio)->proximo;
+
+ 		while(atual != (*inicio) && atual->conteudo < valor){
+
+ 			ant = atual;
+ 			atual = atual->proximo;
+ 		}
+
+ 		ant->proximo = novo;
+ 		novo->anterior = ant;
+ 		novo->proximo = atual;
+
+ 		return 1;
+ 	}
+
+ 	return 0;
 
  }
 
  void main(){
 
- 	
+
  }
