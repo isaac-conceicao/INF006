@@ -80,4 +80,34 @@ int inserirInicio(Node ** inicio, int valor){
 
 	// atualizando ponteiro de inicio
 	*inicio = novo;
+
+	return 1;
+}
+
+int inserirListaOrdenada(Node** inicio, int valor){
+
+	if (inicio == NULL) // nao existe lista
+		return 0;
+
+	Node *novo = (Node*)malloc(sizeof(No));
+
+	if (novo == NULL) // nao foi possivel alocar memoria
+		return 0;
+
+	novo->conteudo = valor;
+
+	Node *ant = (*inicio);
+	Node *atual = (*inicio)->proximo;
+
+	while(atual != (*inicio) && atual->conteudo < valor){
+		ant = atual;
+		atual = atual->proximo;
+	}
+
+	ant->proximo = novo;
+	novo->proximo = atual
+	novo->anterior = ant->proximo;
+
+	return 1;
+
 }
