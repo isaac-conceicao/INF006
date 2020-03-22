@@ -55,4 +55,29 @@ int inserirFim(No** inicio, int valor){
 	return 1;
 }
 
+int inserirInicio(Node ** inicio, int valor){
 
+	if (inicio == NULL)
+		return 0;
+
+	Node *novo = (Node*)malloc(sizeof(Node));
+
+	if (novo == NULL)
+		return 0;
+
+	novo->conteudo = valor;
+
+	// ponteiro de ponteiro para o ultimo nó
+	Node *ultimo = (*inicio)->anterior;
+
+	// estabelecendo anterior e proximo de novo nó
+	novo->proximo = *inicio;
+	novo->anterior = ultimo;
+
+	// atualizando anteriores e proximos ponteiros de inicio e ultimo
+	ultimo->proximo = novo;
+	(*inicio)->anterior = novo;
+
+	// atualizando ponteiro de inicio
+	*inicio = novo;
+}
