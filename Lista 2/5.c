@@ -19,21 +19,37 @@ impar.
 #include <stdlib.h>
 #include <string.h>
 
+// Uso de variáveis Globais, ainda não consegui fazer de uma forma mais limpa.
+
 char *pilha;
-int topo = -1;
+int topo = -1; // topo inicia em -1
 
+void push(char ele);
+char pop();
+int ehPalindromo(char str[]);
 
-void push(char ele){
+void main(){
+
+	char str[] = "arara";
+
+	if (ehPalindromo(str))
+		printf("\nSim\n");
+
+	else
+		printf("\nNao\n");
+}
+
+void push(char ele){ // coloca na ultima posicao
 
 	pilha[++topo] = ele;
 }
 
-char pop(){
+char pop(){ // retira da ultima posicao
 
 	return pilha[topo--];
 }
 
-int ehPalindromo(char str[]){
+int ehPalindromo(char str[]){ // verifica se é palindromo
 
 	int tamanho = strlen(str);
 
@@ -41,11 +57,12 @@ int ehPalindromo(char str[]){
 	pilha = (char*)malloc(tamanho * sizeof(char));
 
 	// Encontrando o meio
-	int meio = tamanho / 2;
 	int i;
+	int meio = tamanho / 2;
 
-	for (i = 0; i < meio; i++)
+	for (i = 0; i < meio; i++){
 		push(str[i]);
+	}
 
 	// Checando se o tamanho da string é impar, se impar
 	// negligencia o meio do caractere
@@ -66,15 +83,4 @@ int ehPalindromo(char str[]){
 	}
 
 	return 1;
-}
-
-void main(){
-
-	char str[] = "raiar";
-
-	if (ehPalindromo(str))
-		printf("\nSim\n");
-
-	else
-		printf("\nNao\n");
 }
