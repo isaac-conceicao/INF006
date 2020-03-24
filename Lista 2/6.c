@@ -27,10 +27,11 @@ Node *criarPilha();
 int vazia(Node *pilha);
 int cheia(Node **pilha);
 int empilha(Node *pilha, int valor);
-char desempilha(Node *pilha);
+int desempilha(Node *pilha);
 int tamanhoVetor(int vet[]);
 int tamanhoVetor(int vet[]);
 Node* ordenarDecrescente(int A[], int B[]);
+void listarPilha(Node *pilha);
 
 void main(){
 
@@ -38,6 +39,8 @@ void main(){
 	int num2[] = {4,5,6};
 
 	Node *pilha = ordenarDecrescente(num1, num2);
+
+	listarPilha(pilha);
 
 
 }
@@ -106,7 +109,7 @@ int empilha(Node *pilha, int valor){
 }
 
 // retiro do final
-char desempilha(Node *pilha){
+int desempilha(Node *pilha){
 
 	if (pilha == NULL) // Pilha nao existe
 		return 0;
@@ -130,11 +133,12 @@ char desempilha(Node *pilha){
 	return valor;
 }
 
+// Pegando a quantidade de elementos no vetor
 int tamanhoVetor(int vet[]){
 
-	int tamanho = sizeof(*vet) / sizeof(int);
+	int tamanho = sizeof(*vet) / sizeof(int); // AINDA NAO ESTA FUNCIONANDO
 
-	return tamanho;
+	return 3; // VALOR DE TESTE
 }
 
 Node* ordenarDecrescente(int A[], int B[]){
@@ -142,7 +146,9 @@ Node* ordenarDecrescente(int A[], int B[]){
 	Node *p1 = criarPilha(); // Pilha 1
 	Node *p2 = criarPilha(); // Pilha 2
 	
-	if (vazia(p1) || vazia(p2))
+	printf("Vazia\n");
+
+	if (p1 == NULL || p2 == NULL)
 		return 0;
 
 	Node *p3 = criarPilha(); // Pilha 3
@@ -159,26 +165,37 @@ Node* ordenarDecrescente(int A[], int B[]){
 		i++;
 	}
 
-	int tamanho = tamanhoVetor(A) + tamanhoVetor(B); 
+	int tamanho = (tamanhoVetor(A) + tamanhoVetor(B)) / 2; 
 
-	p3 = (Node*)realloc(p3, tamanho * sizeof(Node));
+	if (tamanho % 2 != 0) // Verfica se é impar
+		tamanho ++;
 
 	int x, y;
 
+	printf("\nAntes de empilhar\n" );
+	
 	i = 0;
-	while (i < tamanho){
+	
+	listarPilha(p1);
+	listarPilha(p2);	
+	
+	// FALTANDO A LÓGICA PARA ORDENAR DECRESCENTE
+	
+	return p3;
+}
 
-		x = desempilha(p1);
-		y = desempilha(p2);
+void listarPilha(Node *pilha){
 
-		if (x > y)
-			p3[i].conteudo = x;
-			
-		else
-			p3[i].conteudo = y;
+	if (pilha == NULL || vazia(pilha))
+		return;
 
-		i++;
+	Node *atual = pilha->proximo;
+
+	while(atual != NULL){
+
+		printf("-> %d", atual->conteudo);
+		atual = atual->proximo;
 	}
 
-	return p3;
+	printf("\n\n");
 }
