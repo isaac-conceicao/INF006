@@ -23,6 +23,25 @@ struct node{
 
 typedef struct node Node;
 
+Node *criarPilha();
+int vazia(Node *pilha);
+int cheia(Node **pilha);
+int empilha(Node *pilha, int valor);
+char desempilha(Node *pilha);
+int tamanhoVetor(int vet[]);
+int tamanhoVetor(int vet[]);
+Node* ordenarDecrescente(int A[], int B[]);
+
+void main(){
+
+	int num1[] = {1, 2, 3};
+	int num2[] = {4,5,6};
+
+	Node *pilha = ordenarDecrescente(num1, num2);
+
+
+}
+
 Node *criarPilha(){
 
 	Node *pilha = (Node*)malloc(sizeof(Node));
@@ -118,7 +137,6 @@ int tamanhoVetor(int vet[]){
 	return tamanho;
 }
 
-
 Node* ordenarDecrescente(int A[], int B[]){
 
 	Node *p1 = criarPilha(); // Pilha 1
@@ -163,14 +181,4 @@ Node* ordenarDecrescente(int A[], int B[]){
 	}
 
 	return p3;
-}
-
-void main(){
-
-	int num1[] = {1, 2, 3};
-	int num2[] = {4,5,6};
-
-	Node *pilha = ordenarDecrescente(num1, num2);
-
-
 }
