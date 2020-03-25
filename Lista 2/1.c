@@ -1,3 +1,15 @@
+/*
+
+Checklist
+
+- Criacao de uma fila circular, usando lista encadeada. - completo
+- Fila 1 responsável pelas posicoes (0 - 9)
+- Fila 2 responsável pelas posicoes (10 - 19)
+
+Obs: Teria sido melhor usar uma fila estática, mas ainda não sei tornar ela circular.
+ */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,7 +21,19 @@ struct no{
 
 typedef struct no No;
 
-No* criaLista(){
+No* criaFila();
+int insereFinal(No **fila, int valor);
+int removeInicio(No **fila);
+int removeValor(No **fila, int valor);
+void liberaFila(No** fila);
+void imprimefila(No **fila);
+
+void main(){
+	
+	
+}
+
+No* criaFila(){
 
 	No *inicio = (No*)malloc(sizeof(No));
 
@@ -19,28 +43,9 @@ No* criaLista(){
 	return inicio;
 }
 
-void liberaLista(No** lista){
+int insereFinal(No **fila, int valor){
 
-	if (lista != NULL && (*lista) != NULL){
-
-		No *aux, *no = *lista;
-
-		while ((*lista) != no->proximo){
-
-			aux = no;
-			no = no->proximo;
-
-			free(aux);
-		}
-
-		free(no);
-		free(lista);
-	}
-}
-
-int insereListaFinal(No **lista, int valor){
-
-	if (lista == NULL) // nao existe lista
+	if (fila == NULL) // nao existe fila
 		return 0;
 
 	No *novo = (No*)malloc(sizeof(No));
@@ -50,191 +55,77 @@ int insereListaFinal(No **lista, int valor){
 
 	novo->conteudo = valor;
 
-	if ((*lista) == NULL){ // lista vazia: insere inicio
+	if ((*fila) == NULL){ // fila vazia: insere inicio
 		
-		*lista = novo;
-		novo->proximo = novo; // já que ele é o único na lista, ele vai apontar para ele mesmo		
+		*fila = novo;
+		novo->proximo = novo; // já que ele é o único na fila, ele vai apontar para ele mesmo		
 	
 	}else{
 
-		No *aux = *lista;
+		No *aux = *fila;
 
-		while(aux->proximo != (*lista))
+		while(aux->proximo != (*fila))
 			aux = aux->proximo;
 
 		aux->proximo = novo;
-		novo->proximo = *lista;
+		novo->proximo = *fila;
 	}
 
 	return 1;
 }
 
-int insereListaInicio(No **lista, int valor){
+int removeInicio(No **fila){
 
-	if (lista == NULL) // nao existe lista
+	if (fila == NULL)
 		return 0;
 
-	No *novo = (No*)malloc(sizeof(No));
+	if ((*fila) == (*fila)->proximo){ // fila fica vazia
 
-	if (novo == NULL)
-		return 0;
-
-	novo->conteudo = valor;
-
-	if ((*lista) == NULL){ // lista vazia: insere inicio
-		
-		*lista = novo;
-		novo->proximo = novo;
-	
-	}else{
-
-		No *aux = *lista;
-
-		while(aux->proximo != (*lista)) // enquanto auxiliar próximo for diferente do endereço do inicio da lista
-			aux = aux->proximo;
-
-		aux->proximo = novo;
-		novo->proximo = *lista;
-
-		*lista = novo; // novo passa a ser o primeiro da lista;
-	}
-
-	return 1;
-}
-
-int insereListaOrdenada(No** lista, int valor){
-
-	if (lista == NULL) // se lista nao existir
-		return 0;
-
-	No *novo = (No*)malloc(sizeof(No));
-
-	if (novo == NULL)
-		return 0;
-
-	novo->conteudo = valor;
-
-	if ((*lista) == NULL){ // insere inicio
-		
-		*lista = novo;
-		novo->proximo = novo;
-
-		return 1;
-	
-	}else{
-
-		if ((*lista)->conteudo > valor){ // insere início
-
-			No* atual = *lista;
-
-			while(atual->proximo != (*lista)) // procura o último
-				atual = atual->proximo;
-
-			novo->proximo = *lista;
-			atual->proximo = novo;
-			*lista = novo;
-
-			return 1;
-		}
-
-		No *ant = *lista;
-		No *atual = (*lista)->proximo;
-
-		while(atual != (*lista) && atual->conteudo < valor){
-
-			ant = atual;
-			atual = atual->proximo;
-		}
-
-		ant->proximo = novo;
-		novo->proximo = atual;
-
-		return 1;
-	}
-}
-
-int removeListaInicio(No **lista){
-
-	if (lista == NULL)
-		return 0;
-
-	if ((*lista) == (*lista)->proximo){ // lista fica vazia
-
-		free(*lista);
-		*lista = NULL;
+		free(*fila);
+		*fila = NULL;
 
 		return 1;
 	}
 
-	No *atual = *lista;
+	No *atual = *fila;
 
-	while(atual->proximo != (*lista)) // procura o ultimo
+	while(atual->proximo != (*fila)) // procura o ultimo
 		atual = atual->proximo;
 
-	No *novo = *lista;
+	No *novo = *fila;
 	atual->proximo = novo->proximo;
-	*lista = novo->proximo;
+	*fila = novo->proximo;
 
 	free(novo);
 
 	return 1;
 }
 
-int removeListaFinal(No **lista){
+int removeValor(No **fila, int valor){
 
-	if (lista == NULL || (*lista) == NULL) // lista vazia
+	if (fila == NULL || (*fila) == NULL)
 		return 0;
 
-	if ((*lista) == (*lista)->proximo){ // lista fica vazia
-		
-		free(*lista);
-
-		*lista = NULL;
-
-		return 1;
-	}
-
-	No *anterior = *lista;
-	No *novo = *lista;
-
-	while (novo->proximo != (*lista)){ // procura o último
-
-		anterior = novo;
-		novo = novo->proximo;
-	}
-
-	anterior->proximo = novo->proximo;
-
-	free(novo);
-
-	return 1;
-}
-
-int removeLista(No **lista, int valor){
-
-	if (lista == NULL || (*lista) == NULL)
-		return 0;
-
-	No *novo = *lista;
+	No *novo = *fila;
 
 	if (novo->conteudo == valor){ // remover do inicio 
 
-		if (novo == novo->proximo){ // lista fica vazia
+		if (novo == novo->proximo){ // fila fica vazia
 			free(novo);
 
-			*lista = NULL;
+			*fila = NULL;
 
 			return 1;
 
 		}else{
 
-			No *ultimo = *lista;
+			No *ultimo = *fila;
 
-			while (ultimo->proximo != (*lista)) // procura o ultimo
+			while (ultimo->proximo != (*fila)) // procura o ultimo
 				ultimo = ultimo->proximo;
 
-			ultimo->proximo = (*lista)->proximo;
-			*lista = (*lista)->proximo;
+			ultimo->proximo = (*fila)->proximo;
+			*fila = (*fila)->proximo;
 
 			free(novo);
 
@@ -245,13 +136,13 @@ int removeLista(No **lista, int valor){
 	No *anterior = novo;
 	novo = novo->proximo;
 
-	while (novo != (*lista) && novo->conteudo != valor){
+	while (novo != (*fila) && novo->conteudo != valor){
 
 		anterior = novo;
 		novo = novo->proximo;
 	}
 
-	if (novo == *lista) // nao encontrado
+	if (novo == *fila) // nao encontrado
 		return 0;
 
 	anterior->proximo = novo->proximo;
@@ -261,26 +152,35 @@ int removeLista(No **lista, int valor){
 	return 1;
 }
 
-void imprimeLista(No **lista){
+void liberaFila(No** fila){
 
-	if (lista == NULL || (*lista) == NULL)
+	if (fila != NULL && (*fila) != NULL){
+
+		No *aux, *no = *fila;
+
+		while ((*fila) != no->proximo){
+
+			aux = no;
+			no = no->proximo;
+
+			free(aux);
+		}
+
+		free(no);
+		free(fila);
+	}
+}
+
+void imprimefila(No **fila){
+
+	if (fila == NULL || (*fila) == NULL)
 		return;
 
-	No *atual = *lista;
+	No *atual = *fila;
 
 	do{
 		printf("-> %d ", atual->conteudo);
 		atual = atual->proximo;
 	
-	}while (atual != (*lista));
-}
-
-void main(){
-	
-	No *inicio = criaLista();	
-
-	//insereListaInicio(&inicio, 8);
-	//insereListaFinal(&inicio, 3);
-
-	imprimeLista(&inicio);
+	}while (atual != (*fila));
 }
