@@ -13,6 +13,22 @@ typedef struct node Node;
 Node *cabeca = NULL;
 Node *rabo = NULL;
 
+void inserirInicio(int valor);
+void inserirFinal(int valor);
+int inserirOrdenado(int valor);
+int buscarValor(int valor);
+void listaDireta();
+void listaReversa();
+void tela();
+
+void main(){
+
+	inserirInicio(4);
+	inserirFinal(6);
+	inserirOrdenado(5);
+	tela();
+}
+
 void inserirInicio(int valor){
 
 	Node *novo = (Node*)malloc(sizeof(Node));
@@ -61,36 +77,6 @@ void inserirFinal(int valor){
 		rabo = novo;
 		cabeca->anterior = rabo;
 	}
-}
-
-int buscarValor(int valor){
-
-	Node* atual = cabeca;
-
-	int achei = 0;
-
-	if (cabeca == NULL){
-		printf("\nLista Vazia: valor nao encontrado\n");
-		return 0;
-	}
-
-	do{
-
-		if (atual-> conteudo = valor){
-			printf("Achei, %d encontrado\n", valor);
-			achei = 1;
-			return valor;
-		}
-
-		atual = atual->proximo;
-
-	}while(atual != cabeca);
-
-	if (achei == 0)
-		printf("\nValor nao encontrado\n");
-
-	return 0;
-
 }
 
 int inserirOrdenado(int valor){
@@ -146,8 +132,35 @@ int inserirOrdenado(int valor){
 	}
 
 	return 0;
+}
 
+int buscarValor(int valor){
 
+	Node* atual = cabeca;
+
+	int achei = 0;
+
+	if (cabeca == NULL){
+		printf("\nLista Vazia: valor nao encontrado\n");
+		return 0;
+	}
+
+	do{
+
+		if (atual-> conteudo = valor){
+			printf("Achei, %d encontrado\n", valor);
+			achei = 1;
+			return valor;
+		}
+
+		atual = atual->proximo;
+
+	}while(atual != cabeca);
+
+	if (achei == 0)
+		printf("\nValor nao encontrado\n");
+
+	return 0;
 }
 
 void listaDireta(){
@@ -187,12 +200,4 @@ void tela(){
 
 	printf("\nOrdem Reversa:\n");
 	listaReversa();
-}
-
-void main(){
-
-	inserirInicio(4);
-	inserirFinal(6);
-	inserirOrdenado(5);
-	tela();
 }
