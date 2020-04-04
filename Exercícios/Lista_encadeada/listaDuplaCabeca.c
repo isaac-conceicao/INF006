@@ -126,32 +126,97 @@ int inserirOrdenado (Lista *inicio, int valor){
 	return 1;
 }
 
-void display(Lista *inicio){
+int buscar(Lista *inicio, int valor){
+
+	if (inicio == NULL) // Não existe lista
+		return 0;
+
+	if (inicio->proximo == NULL) // A lista está vazia, não há o que buscar
+		return 0;
+
+	Lista *busca = inicio->proximo;
+
+	while (busca != NULL){
+
+		if (busca->conteudo == valor){
+
+			printf("\nAchei\n");
+			break;
+		}
+
+		busca = busca->proximo;
+	}
+}
+
+int removerValor(Lista *inicio, int valor){
+
+	if (inicio == NULL || inicio->proximo == NULL)
+		return 0;
 
 	Lista *atual = inicio->proximo;
 
-	// Imprimindo do Inicio para o Final
+	while (atual != NULL && atual->conteudo != valor) // Buscando valor, do inicio até o final da lista
+		atual = atual->proximo;
+
+	if (atual == NULL) // Valor nao foi encontrado
+		return 0;
+
+	if (atual->anterior == NULL) // Remove do início
+		inicio->proximo = atual->proximo;
+	else
+		atual->anterior->proximo = atual->proximo; // Se existir alguém antes dele
+
+	if (atual->proximo != NULL) // Se ele não for o último
+		atual->proximo->anterior = atual->anterior;
+
+	free(atual);
+
+	return 1;
+
+}	
+
+void listarInicioFim(Lista *inicio){
+
+	Lista *atual = inicio->proximo;
+
 	while (atual != NULL){
 		printf("-> %d", atual->conteudo);
 		atual = atual->proximo;
 	}
 
-	printf("\n"); // Quebra de linha
+	printf("\n");
+}
 
-	atual = inicio->proximo;
+void listarFimInicio(Lista *inicio){
 
-	// Procuando o Ultimo elemento
-	while(atual->proximo != NULL) 
+	Lista *atual = inicio->proximo;
+
+	while (atual->proximo != NULL) // Encontrando o último
 		atual = atual->proximo;
 
-	// Imprindo do Final para o Inicio
-	while (atual != NULL ){ 
+	while (atual != NULL){ // Imprimindo do Final para o início
 		printf("-> %d", atual->conteudo);
 		atual = atual->anterior;
 	}
 
-	printf("\n"); // Quebra de linha
+	printf("\n");
 }
+
+void display(Lista *inicio){
+
+	if (inicio == NULL || inicio->proximo == NULL)
+		return;
+
+	listarInicioFim(inicio);
+
+	listarFimInicio(inicio);
+	
+}
+
+
+
+
+
 
 void main(){
 
@@ -162,7 +227,8 @@ void main(){
 	inserirOrdenado(inicio, 3);
 	inserirOrdenado(inicio, 8);
 	inserirOrdenado(inicio, 4);
-	
+	display(inicio);
+	removerValor(inicio, 8);
 	display(inicio);
 	
 }
