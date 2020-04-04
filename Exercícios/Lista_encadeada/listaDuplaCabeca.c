@@ -17,6 +17,18 @@ struct lista{
 
 typedef struct lista Lista;
 
+Lista* criarLista();
+int inserirFinal(Lista *inicio, int valor);
+int inserirOrdenado (Lista *inicio, int valor);
+int buscarValor(Lista *inicio, int valor);
+int removerInicio(Lista *inicio);
+int removerFinal(Lista *inicio);
+
+void main(){
+
+	Lista *inicio = criarLista();
+}
+
 Lista* criarLista(){
 
 	Lista *inicio = (Lista*)malloc(sizeof(Lista));
@@ -126,7 +138,7 @@ int inserirOrdenado (Lista *inicio, int valor){
 	return 1;
 }
 
-int buscar(Lista *inicio, int valor){
+int buscarValor(Lista *inicio, int valor){
 
 	if (inicio == NULL) // Não existe lista
 		return 0;
@@ -207,7 +219,6 @@ int removerValor(Lista *inicio, int valor){
 	free(atual);
 
 	return 1;
-
 }	
 
 void listarInicioFim(Lista *inicio){
@@ -244,28 +255,5 @@ void display(Lista *inicio){
 
 	listarInicioFim(inicio);
 
-	listarFimInicio(inicio);
-	
-}
-
-
-
-
-
-
-void main(){
-
-	Lista *inicio = criarLista();
-
-	inserirOrdenado(inicio, 5);
-	inserirOrdenado(inicio, 2);
-	inserirOrdenado(inicio, 3);
-	inserirOrdenado(inicio, 8);
-	inserirOrdenado(inicio, 4);
-	display(inicio);
-	//removerValor(inicio, 8);
-	//removerInicio(inicio);
-	removerFinal(inicio);
-	display(inicio);
-	
+	listarFimInicio(inicio);	
 }
