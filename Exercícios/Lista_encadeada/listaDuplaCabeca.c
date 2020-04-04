@@ -165,6 +165,24 @@ int removerInicio(Lista *inicio){
 	return 1;
 }
 
+int removerFinal(Lista *inicio){
+
+	if (inicio == NULL || inicio->proximo == NULL)
+		return 0;
+
+	Lista *atual = inicio->proximo;
+
+	while (atual->proximo != NULL) // Buscando o último elemento da lista
+		atual = atual->proximo;
+
+	if (atual->anterior == NULL)
+		inicio->proximo = atual->proximo;
+	else
+		atual->anterior->proximo = atual->proximo;
+
+	free(atual);
+}
+
 int removerValor(Lista *inicio, int valor){
 
 	if (inicio == NULL || inicio->proximo == NULL)
@@ -246,7 +264,8 @@ void main(){
 	inserirOrdenado(inicio, 4);
 	display(inicio);
 	//removerValor(inicio, 8);
-	removerInicio(inicio);
+	//removerInicio(inicio);
+	removerFinal(inicio);
 	display(inicio);
 	
 }
