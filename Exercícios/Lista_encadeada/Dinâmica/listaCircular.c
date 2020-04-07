@@ -14,12 +14,12 @@ No* criaLista(){
 	No *inicio = (No*)malloc(sizeof(No));
 
 	if (inicio == NULL)
-		retutn NULL;
+		return NULL;
 
 	return inicio;
 }
 
-void liberaLista(No* lista){
+void liberaLista(No** lista){
 
 	if (lista != NULL && (*lista) != NULL){
 
@@ -38,7 +38,7 @@ void liberaLista(No* lista){
 	}
 }
 
-int insereListaFinal(No *lista, int valor){
+int insereListaFinal(No **lista, int valor){
 
 	if (lista == NULL) // nao existe lista
 		return 0;
@@ -59,7 +59,7 @@ int insereListaFinal(No *lista, int valor){
 
 		No *aux = *lista;
 
-		while(aux->prox != (*lista))
+		while(aux->proximo != (*lista))
 			aux = aux->proximo;
 
 		aux->proximo = novo;
@@ -69,7 +69,7 @@ int insereListaFinal(No *lista, int valor){
 	return 1;
 }
 
-int insereListaInicio(No *lista, int valor){
+int insereListaInicio(No **lista, int valor){
 
 	if (lista == NULL) // nao existe lista
 		return 0;
@@ -102,7 +102,7 @@ int insereListaInicio(No *lista, int valor){
 	return 1;
 }
 
-int insereListaOrdenada(No* lista, int valor){
+int insereListaOrdenada(No** lista, int valor){
 
 	if (lista == NULL) // se lista nao existir
 		return 0;
@@ -127,7 +127,7 @@ int insereListaOrdenada(No* lista, int valor){
 
 			No* atual = *lista;
 
-			while(atual->proximo != (*li)) // procura o último
+			while(atual->proximo != (*lista)) // procura o último
 				atual = atual->proximo;
 
 			novo->proximo = *lista;
@@ -143,17 +143,125 @@ int insereListaOrdenada(No* lista, int valor){
 		while(atual != (*lista) && atual->conteudo < valor){
 
 			ant = atual;
-			atual = atual->prox;
+			atual = atual->proximo;
 		}
 
-		ant->prox = novo;
-		novo->prox = atual;
+		ant->proximo = novo;
+		novo->proximo = atual;
 
 		return 1;
 	}
 }
 
-void imprimeLista(No *lista){
+int removeListaInicio(No **lista){
+
+	if (lista == NULL)
+		return 0;
+
+	if ((*lista) == (*lista)->proximo){ // lista fica vazia
+
+		free(*lista);
+		*lista = NULL;
+
+		return 1;
+	}
+
+	No *atual = *lista;
+
+	while(atual->proximo != (*lista)) // procura o ultimo
+		atual = atual->proximo;
+
+	No *novo = *lista;
+	atual->proximo = novo->proximo;
+	*lista = novo->proximo;
+
+	free(novo);
+
+	return 1;
+}
+
+int removeListaFinal(No **lista){
+
+	if (lista == NULL || (*lista) == NULL) // lista vazia
+		return 0;
+
+	if ((*lista) == (*lista)->proximo){ // lista fica vazia
+		
+		free(*lista);
+
+		*lista = NULL;
+
+		return 1;
+	}
+
+	No *anterior = *lista;
+	No *novo = *lista;
+
+	while (novo->proximo != (*lista)){ // procura o último
+
+		anterior = novo;
+		novo = novo->proximo;
+	}
+
+	anterior->proximo = novo->proximo;
+
+	free(novo);
+
+	return 1;
+}
+
+int removeLista(No **lista, int valor){
+
+	if (lista == NULL || (*lista) == NULL)
+		return 0;
+
+	No *novo = *lista;
+
+	if (novo->conteudo == valor){ // remover do inicio 
+
+		if (novo == novo->proximo){ // lista fica vazia
+			free(novo);
+
+			*lista = NULL;
+
+			return 1;
+
+		}else{
+
+			No *ultimo = *lista;
+
+			while (ultimo->proximo != (*lista)) // procura o ultimo
+				ultimo = ultimo->proximo;
+
+			ultimo->proximo = (*lista)->proximo;
+			*lista = (*lista)->proximo;
+
+			free(novo);
+
+			return 1;
+		}
+	}
+
+	No *anterior = novo;
+	novo = novo->proximo;
+
+	while (novo != (*lista) && novo->conteudo != valor){
+
+		anterior = novo;
+		novo = novo->proximo;
+	}
+
+	if (novo == *lista) // nao encontrado
+		return 0;
+
+	anterior->proximo = novo->proximo;
+
+	free(novo);
+
+	return 1;
+}
+
+void imprimeLista(No **lista){
 
 	if (lista == NULL || (*lista) == NULL)
 		return;
@@ -168,5 +276,11 @@ void imprimeLista(No *lista){
 }
 
 void main(){
+	
+	No *inicio = criaLista();	
 
+	//insereListaInicio(&inicio, 8);
+	//insereListaFinal(&inicio, 3);
+
+	imprimeLista(&inicio);
 }
