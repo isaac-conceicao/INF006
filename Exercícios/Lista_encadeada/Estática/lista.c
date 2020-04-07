@@ -11,6 +11,18 @@ struct lista{
 
 typedef struct lista Lista;
 
+// A lista foi criada dessa forma, para que depois 
+// possa ser usada a funcao libera lista
+Lista* criarLista(){
+
+	Lista *inicio = (Lista*)malloc(sizeof(Lista));
+
+	if (inicio != NULL)
+		inicio->qtd = 0;
+
+	return inicio;
+}
+
 void main(){
 
 	
