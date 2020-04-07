@@ -22,6 +22,16 @@ Lista* criarLista(){
 
 	return inicio;
 }
+int liberaLista(Lista* li){
+
+	if (li == NULL)
+		return 0;
+
+	free(li);
+
+	return 1;
+}
+
 
 void main(){
 
