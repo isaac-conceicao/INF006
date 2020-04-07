@@ -43,6 +43,21 @@ int inserirFinal(Lista* li, int valor){
 	return 1;
 }
 
+void exibirLista(Lista* li){
+
+	if (li == NULL || li->qtd == 0)
+		return;
+
+	int i;
+
+	for (i = 0; i < li->qtd; i++)
+		printf("-> %d", li->dados[i]);
+
+	Lista *li = criarLista(); 
+
+	inserirFinal(li, 7);
+	exibirLista(li);
+}
 
 void main(){
 
