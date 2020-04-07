@@ -32,6 +32,17 @@ int liberaLista(Lista* li){
 	return 1;
 }
 
+int inserirFinal(Lista* li, int valor){
+
+	if (li == NULL)
+		return 0;
+
+	li->dados[li->qtd] = valor;
+
+	li->qtd ++;
+	return 1;
+}
+
 
 void main(){
 
