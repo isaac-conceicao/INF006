@@ -81,6 +81,26 @@ int inserirOrdenado(Lista* li, int valor){
 
 }
 
+int removerValor(Lista *li, int valor){
+
+	if (li == NULL)
+		return 0;
+
+	int i, j;
+	i = 0;
+
+	while (i < li->qtd && li->dados[i] != valor)
+		i++;
+
+	if (i == li->qtd) // Não conseguiu achar
+		return 0;
+
+	for (i = i; i < li->qtd-1; i++)
+		li->dados[i] = li->dados[i+1];
+
+	li->qtd--; // Remocao Lógica
+}
+
 void exibirLista(Lista* li){
 
 	if (li == NULL || li->qtd == 0)
@@ -97,11 +117,5 @@ void exibirLista(Lista* li){
 void main(){
 
 	Lista *li = criarLista(); 
-
-	inserirInicio(li, 1);
-	inserirInicio(li, 7);
-	exibirLista(li);
-	inserirOrdenado(li, 2);
-	exibirLista(li);
 
 } 
