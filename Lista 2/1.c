@@ -29,11 +29,86 @@ Fila* criarFila(){
 	return fi; 
 }
 
+int filaVazia(Fila *fi, int escolha){
+
+	if (fi == NULL)
+		return -1;
+
+	if (escolha == 1)
+		if (fi->qtdFila1 == 0)
+			return 1;
+
+	else if (escolha == 2)
+		if (fi->qtdFila2 == 0)
+			return 1;
+
+	return 0;
+}
+
+int filaCheia(Fila *fi, int escolha){
+
+	if (fi == NULL)
+		return -1;
+
+	if (escolha == 1)
+		if (fi->qtdFila1 == 10)
+			return 1;
+
+	else if (escolha == 2)
+		if (fi->qtdFila2 == 10)
+			return 1;
+
+	return 0; 
+}
+
+int consultaFila(Fila *fi, int valor, escolha){
+
+} 
+
 int insereFila(Fila *fi, int valor, int escolha){
+
+	if (li == NULL)
+		return 0;
 
 	if (escolha == 1){
 
+		if (filaCheia(fi, escolha))
+			return 0;
+
+		fi->dados[fi->filaUm] = valor;
+		fi->finalFilaUm = (fi->finalFilaUm + 1) % 10;
+		fi->qtdFila1 ++;
+	
+	}else if (escolha == 2){
+
+		if (filaCheia(fi, esxolha))
+			return 0;
+
+		fi->dados[fi->filaDois] = valor;
+		fi->finalFilaDois = ((fi->finalFilaDois + 1) % 10) + 10;
+		fi->qtdFila2 ++;
 	}
+
+	return 1;
+}
+
+int removeFila(Fila *fi, int escolha){
+
+	if (fi == NULL || filaVazia(fi, escolha))
+		return 0;
+
+	if (escolha == 1){
+		fi->inicioFilaUm = (fi->inicioFilaUm + 1) % 10;
+		fi->qtdFila1 --;
+		return 1;
+
+	}else if (escolha == 2){
+		fi->inicioFilaDois = (fi->inicioFilaDois + 1) % 10 + 10;
+		fila->qtdFila2 --;
+		return 1;
+	}
+
+	return 0; // Caso Esolha de Fila for Inválida
 }
 
 int menuPrincipal(){
@@ -85,8 +160,6 @@ void menuAuxiliar(){
 	
 	int escolha, opcao, valor;
 
-	
-
 	do{
 
 		escolha = menuPrincipal()
@@ -106,13 +179,13 @@ void menuAuxiliar(){
 					printf("Digite o Valor a ser Inserido: ");
 					scanf("%d", &valor);
 
-					insereFila(fi, valor);
+					insereFila(fi, valor, 1);
 				
 				}else if (opcao == 2){
 					printf("Digite o Valor a ser Removido: ");
 					scanf("%d", &valor);
 
-					removeFila(fi, valor);
+					removeFila(fi, valor, 1);
 				
 				}else
 					printf("\nOpcao Invalida\n\n");
@@ -122,19 +195,19 @@ void menuAuxiliar(){
 
 			case 3:{
 				
-				opcao = menuFilaUm();
+				opcao = menuFilaDois();
 
 				if (opcao == 1){
 					printf("Digite o Valor a ser Inserido: ");
 					scanf("%d", &valor);
 
-					insereFila(fi, valor);
+					insereFila(fi, valor, 2);
 				
 				}else if (opcao == 2){
 					printf("Digite o Valor a ser Removido: ");
 					scanf("%d", &valor);
 
-					removeFila(fi, valor);
+					removeFila(fi, valor, 2);
 				
 				}else
 					printf("\nOpcao Invalida\n\n");
