@@ -32,6 +32,26 @@ void liberaFilaPrio(filaPrio *fp){
 	free(fp);
 }
 
+int insereFilaPrio(filaPrio *fp, char nome, int prioridade){
+
+	if (fp == NULL)
+		return 0;
+	if (fp->qtd == MAX) // Lista Cheia
+		return 0;
+
+	int i = fp->qtd-1;
+	while( i>= 0 && fp->prio >= prioridade){
+		fp->dados[i+1] = fp->dados[i];
+		i--;
+	}
+
+	strcpy(fp->dados[i+1].nome, nome);
+	fp->dados[i+1].prio = prioridade;
+
+	fp->qtd ++;
+
+	return 1;
+}
 
 
 void main(){
