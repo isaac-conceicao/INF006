@@ -79,6 +79,13 @@ int estaCheiaFilaPrio(filaPrio *fp){
 	return (fp->qtd == MAX);
 }
 
+int estaVaziaFilaPrio(filaPrio *fp){
+	if (fp == NULL)
+		return -1;
+
+	return (fp->qtd == 0);
+}
+
 void main(){
 
 }
