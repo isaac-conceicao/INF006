@@ -3,6 +3,14 @@
 
 #define MAX 3
 
+/*
+	Fila = Primeiro a entrar Primeiro a sair.
+
+	Fila de Prioridade Crescente = Oelemento com maior prioridade estará no final da fila.
+
+ */
+
+
 struct paciente{
 	char nome[30];
 	int prio;
@@ -60,7 +68,7 @@ int removeFilaPrio(filaPrio *fp){
 	if (fp->qtd == 0)
 		return 0;
 
-	fp->qtd --;
+	fp->qtd --; // Remocao Lógica
 
 	return 1;
 }
@@ -85,6 +93,18 @@ int estaVaziaFilaPrio(filaPrio *fp){
 
 	return (fp->qtd == 0);
 }
+
+void imprimeFilaPrio (filaPrio *fp){
+
+	if (fp == NULL)
+		return ;
+	
+	int i;
+
+	for (i = fp->qtd-1; i>= 0; i--)
+		printf("Prio: %d \tNome: %s\n", fp->dados[i].prio, fp->dados[i].nome);
+}
+
 
 void main(){
 
