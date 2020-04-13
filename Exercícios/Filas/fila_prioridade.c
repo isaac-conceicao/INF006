@@ -53,6 +53,17 @@ int insereFilaPrio(filaPrio *fp, char nome, int prioridade){
 	return 1;
 }
 
+int removeFilaPrio(filaPrio *fp){
+	if (fp == NULL)
+		return 0;
+
+	if (fp->qtd == 0)
+		return 0;
+
+	fp->qtd --;
+
+	return 1;
+}
 
 void main(){
 
