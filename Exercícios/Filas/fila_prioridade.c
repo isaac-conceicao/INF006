@@ -23,6 +23,19 @@ struct fila_prioridade{
 
 typedef struct fila_prioridade filaPrio;
 
+filaPrio* criarFilaPrio();
+void liberaFilaPrio(filaPrio *fp);
+int insereFilaPrio(filaPrio *fp, char nome, int prioridade);
+int removeFilaPrio(filaPrio *fp);
+int tamanhoFilaPrio (filaPrio *fp);
+int estaCheiaFilaPrio(filaPrio *fp);
+int estaVaziaFilaPrio(filaPrio *fp);
+void imprimeFilaPrio (filaPrio *fp);
+
+void main(){
+
+}
+
 filaPrio* criarFilaPrio(){
 
 	filaPrio *fp = (filaPrio*)malloc(sizeof(filaPrio));
@@ -103,9 +116,4 @@ void imprimeFilaPrio (filaPrio *fp){
 
 	for (i = fp->qtd-1; i>= 0; i--)
 		printf("Prio: %d \tNome: %s\n", fp->dados[i].prio, fp->dados[i].nome);
-}
-
-
-void main(){
-
 }
