@@ -27,6 +27,11 @@ filaPrio* criarFilaPrio(){
 	return fp;
 }
 
+void liberaFilaPrio(filaPrio *fp){
+
+	free(fp);
+}
+
 
 
 void main(){
