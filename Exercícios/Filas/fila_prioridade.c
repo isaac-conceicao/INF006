@@ -65,6 +65,13 @@ int removeFilaPrio(filaPrio *fp){
 	return 1;
 }
 
+int tamanhoFilaPrio (filaPrio *fp){
+	if (fp == NULL)
+		return -1;
+	else
+		return fp->qtd;
+}
+
 void main(){
 
 }
