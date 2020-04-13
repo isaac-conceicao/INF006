@@ -72,6 +72,13 @@ int tamanhoFilaPrio (filaPrio *fp){
 		return fp->qtd;
 }
 
+int estaCheiaFilaPrio(filaPrio *fp){
+	if (fp == NULL)
+		return -1;
+	
+	return (fp->qtd == MAX);
+}
+
 void main(){
 
 }
