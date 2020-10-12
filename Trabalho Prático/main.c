@@ -6,7 +6,6 @@
 /*	
 	[X] Contruir a estrutura
 	[ ] Abrir o arquivo
-	[ ] 
 	[ ] Separar os parâmetros
 	[ ] Buscar antes de inserir
 	[ ] Inserir no Inicio
@@ -31,7 +30,7 @@ typedef struct Celula {
 
 // FUNCOES
 
-int lerLinha(Celula *no) {
+void lerLinha(Celula *no) {
 	FILE *arquivo;
 	arquivo = fopen("GeradorMassaDados.c", "r");
 
@@ -47,7 +46,7 @@ int lerLinha(Celula *no) {
 	}
 }
 
-int inserirNaLista(int valor){ //a função recebe apenas o valor que quero inserir na lista
+int inserirNaLista(Celula *no, int valor){ //a função recebe apenas o valor que quero inserir na lista
   
     Celula *n;
 
@@ -62,15 +61,15 @@ int inserirNaLista(int valor){ //a função recebe apenas o valor que quero inse
     if(inicio == NULL){
         inicio = n;
      }
+
+     return 1;
  }
 
 
 int main() {
 
 	Celula *inicio = NULL;
-	
-	lerLinha(inicio);
-	
+		
 
 }
 
