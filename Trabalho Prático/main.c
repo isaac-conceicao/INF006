@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define TAMCHAR 50
 
@@ -30,6 +31,19 @@ typedef struct Celula {
 
 // FUNCOES
 
+Celula* criarListaCabeca(){
+
+	Celula *inicio = (Celula*)malloc(sizeof(Celula));
+
+	if (inicio == NULL)
+		return NULL;
+
+	inicio->prox = NULL;
+	return inicio;
+}
+
+
+
 void lerLinha(Celula *no) {
 	FILE *arquivo;
 	arquivo = fopen("GeradorMassaDados.c", "r");
@@ -46,30 +60,42 @@ void lerLinha(Celula *no) {
 	}
 }
 
-int inserirNaLista(Celula *no, int valor){ //a função recebe apenas o valor que quero inserir na lista
-  
-    Celula *n;
+void inserirFinal(Celula *lista, char *valor){
 
-    n = (Celula*) malloc(sizeof(Celula*));
+	Celula *tmp;
+	Celula *novo;
 
-    if(n == NULL)
-        return 0;
-    
-    n->tamNovo = valor;
-    n->proximo = NULL;
+	novo = (Celula*)malloc(sizeof(Celula));
 
-    if(inicio == NULL){
-        inicio = n;
-     }
 
-     return 1;
- }
+	if (novo == NULL)
+		return ;
 
+	strcpy(novo->peso, valor);
+	novo->prox = NULL;
+
+	if (lista->prox == NULL)
+		lista->prox = novo;
+
+	else{
+
+		tmp = lista->prox;
+
+		while(tmp->prox != NULL)
+			tmp = tmp->prox;
+
+		tmp->prox = novo;
+	}
+
+
+}
 
 int main() {
 
 	Celula *inicio = NULL;
-		
+	
+	lerLinha(inicio);
+	
 
 }
 
