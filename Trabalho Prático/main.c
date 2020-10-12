@@ -6,9 +6,13 @@
 /*	
 	[X] Contruir a estrutura
 	[ ] Abrir o arquivo
+	[ ] 
 	[ ] Separar os parâmetros
 	[ ] Buscar antes de inserir
-	[ ] Inserir (em qualquer local);
+	[ ] Inserir no Inicio
+	[ ] Inserir no Meio
+	[ ] Inserir no Final
+	[ ] Inserir Ordenado(em qualquer local);
 	[ ] Remover (em qualquer local);
 	[ ] Busca na lista;
 */
@@ -17,12 +21,9 @@
 // Estrutura 
 typedef struct Celula {
 	char nomeLP[TAMCHAR];
-	char nomeCabo[TAMCHAR];
-	int tamTotal;
-	int peso;
-	int gc;
-	float tamNovo;
-	int qtdLP;
+	char peso[TAMCHAR];
+	char tamNovo[TAMCHAR];
+	char gc[TAMCHAR];
 
 	struct Celula *prox;
 } Celula;
