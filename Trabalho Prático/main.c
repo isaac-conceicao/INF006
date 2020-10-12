@@ -60,6 +60,29 @@ void lerLinha(Celula *no) {
 	}
 }
 
+int converterLinha(Celula *no, FILE *arquivo) {
+	char linha[TAM];
+	int retorno=0;
+	
+	if(arquivo==NULL){
+		retorno=FALHA_ABRIR_ARQUIVO;
+	}
+	
+	if(!feof(arquivo)){
+			fgets(linha,TAM,arquivo);
+			//substring
+			//converter substring p/ os tipos
+			//alocar nó
+			//atribuir dados convertidos ao nó 
+			retorno=SUCESSO;
+		}
+	} else {
+		printf("FIM DE ARQUIVO");
+		retorno=FIM_DO_ARQUIVO;
+	}
+	return retorno;
+}
+
 void inserirFinal(Celula *lista, char *valor){
 
 	Celula *tmp;
