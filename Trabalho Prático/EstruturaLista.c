@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "EstruturaLista.h"
 
 int inserirNoInicio (Celula *inicio,  Celula *novo){
@@ -51,6 +52,49 @@ int ordenarPorGC(Celula *inicio, int tamanho){
 }
 
 int converteLinha(no,linha){
+	int i;
+	int j = 0;
+
+	char nomeLP[TAM];
+	char tamanho[TAM];
+	char peso[TAM];
+	char GC[TAM];
+
+	// Encontra nome do LP
+	for(i = 0; linha[j] != ';'; i++, j++) { 
+		nomeLP[i] = linha[j];
+	}
+
+	nomeLP[i++] = '\0';
+	
+	// Encontra o tamanho
+	for(i = 0; linha[j] != ';'; i++, j++) {
+		tamanho[i] = linha[j];
+	}
+
+	tamanho[i++] = '\0';	
+
+	// Encontra o Peso
+	for(i = 0; linha[j] != ';'; i++, j++) {
+		peso[i] = linha[j];
+	}
+
+	peso[i++] = '\0';
+
+	// Encontra o GC
+	for(i = 0; linha[j] != ';'; i++; j++) {
+		GC[i] = linha[j];
+	}
+
+	GC[i++] = '\0';
+
+	// Converte para Float
+	no.tamanho = strof(tamnho); // solucao Temporaria, preciso testar essa funcao
+
+	// Converte para Int
+	no.peso = atoi(peso);
+	no.GC = atoi(GC);
+	
 }
 
 int extrairDados(Celula *inicio, int *tamanhoArquivo) {
