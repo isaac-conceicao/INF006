@@ -12,7 +12,7 @@ typedef struct no{
 	float tamanho;
 	int peso;
 	int GC;
-	no* prox;
+	struct no* prox;
 }Celula;
 
 int inserirNoInicio (Celula *inicio,  Celula *novo);

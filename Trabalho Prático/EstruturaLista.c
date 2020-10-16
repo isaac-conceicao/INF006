@@ -51,7 +51,7 @@ int ordenarPorGC(Celula *inicio, int tamanho){
 	return retorno;
 }
 
-int converteLinha(no,linha){
+int converteLinha(Celula *inicio, char linha[]){
 	int i;
 	int j = 0;
 
@@ -60,19 +60,25 @@ int converteLinha(no,linha){
 	char peso[TAM];
 	char GC[TAM];
 
+
+	// Essa funcao pode ser melhorada
+	// Os fors podem virar funcoes que recebam string e inteiros.
+
 	// Encontra nome do LP
 	for(i = 0; linha[j] != ';'; i++, j++) { 
 		nomeLP[i] = linha[j];
 	}
 
 	nomeLP[i++] = '\0';
+	j++;
 	
 	// Encontra o tamanho
 	for(i = 0; linha[j] != ';'; i++, j++) {
 		tamanho[i] = linha[j];
 	}
 
-	tamanho[i++] = '\0';	
+	tamanho[i++] = '\0';
+	j++;
 
 	// Encontra o Peso
 	for(i = 0; linha[j] != ';'; i++, j++) {
@@ -80,20 +86,30 @@ int converteLinha(no,linha){
 	}
 
 	peso[i++] = '\0';
+	j++;
+
 
 	// Encontra o GC
-	for(i = 0; linha[j] != ';'; i++; j++) {
+	// ATENCAO '\0' deve ser substituido por '\n' quando for usar arquivo.
+	for(i = 0; linha[j] != ';' && linha[j] != '\0'; i++, j++) {
 		GC[i] = linha[j];
 	}
 
 	GC[i++] = '\0';
 
-	// Converte para Float
-	no.tamanho = strof(tamnho); // solucao Temporaria, preciso testar essa funcao
+	// Conversoes
 
+	strcpy(inicio->nomeLP, nomeLP);
+	// Converte para Float
+	inicio->tamanho = atof(tamanho);
 	// Converte para Int
-	no.peso = atoi(peso);
-	no.GC = atoi(GC);
+	inicio->peso = atoi(peso);
+	inicio->GC = atoi(GC);
+
+	printf("nomeLP: %s \n", inicio->nomeLP);
+	printf("Tamanho: %f \n", inicio->tamanho);
+	printf("Peso: %d \n", inicio->peso);
+	printf("GC: %d \n", inicio->GC);
 	
 }
 
