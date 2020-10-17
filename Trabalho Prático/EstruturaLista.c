@@ -3,28 +3,130 @@
 #include <string.h>
 #include "EstruturaLista.h"
 
-int inserirNoInicio (Celula *inicio,  Celula *novo){
+int inserirNoInicio (Celula *inicio,  Celula *no){
 	//insere um novo registro no inicio da lista
+  int retorno=FALHA_INSERIR;
+	//testar se a lista estah vazia
+	if (inicio==NULL){
+		//inserir no inicio
+		inicio=no;
+		no->prox=NULL;
+		
+		retorno=SUCESSO;
+	}else{
+    //inserir no inicio
+    no->prox=inicio;
+    inicio=no;
+    retorno=SUCESSO;
+  }
+  return retorno;
 }
 
-int inserirNoFim (Celula *inicio, Celula *novo){
-	//insere um novo registro no fim da lista
+int inserirNoFim (Celula *inicio, Celula *no){
+	int retorno=FALHA_INSERIR;
+	//testar se a lista estah vazia
+	if (inicio==NULL){
+		inserirNoInicio(inicio,no);
+		retorno=SUCESSO;
+	}else{
+		Celula* busca=inicio;
+		//buscar o fim da lista
+		while(busca->prox!=NULL){
+			busca=busca->prox;
+		}
+		//inserir
+		busca->prox=no;
+		no->prox=NULL;
+		
+		retorno=SUCESSO;
+	}
+	return retorno;
 }
 
-int inserirPorNome (Celula *inicio,  Celula *novo){
+int inserirPorNome (Celula *inicio,  Celula *no){
 	//insere ordenado por nome
+  int retorno=FALHA_INSERIR;
+	//testar se a lista estah vazia
+	if (inicio==NULL){
+		inserirNoInicio(inicio,no);		
+		retorno=SUCESSO;
+	}else{
+    int comp=1;
+    Celula* busca=inicio->prox;
+    Celula* anterior=inicio;
+    while((busca!=NULL)&&(comp=1)){
+      comp=strcmp(no->nome,busca->nome);
+      anterior=busca;
+      busca=busca->prox;
+    }
+    anterior->prox=no;
+    no->prox=busca;
+    retorno=SUCESSO;
+  }
+  return retorno;
 }
 
-int inserirPorTamanho (Celula *inicio,  Celula *novo){
-	//insere ordenado por tamanho	
+int inserirPorTamanho (Celula *inicio,  Celula *no){
+	//insere ordenado por tamanho
+  int retorno=FALHA_INSERIR;
+	//testar se a lista estah vazia
+	if (inicio==NULL){
+		inserirNoInicio(inicio,no);		
+		retorno=SUCESSO;
+	}else{
+    Celula* busca=inicio->prox;
+    Celula* anterior=inicio;
+    while((busca!=NULL)&&(no->tamanho>busca->tamanho)){
+      anterior=busca;
+      busca=busca->prox;
+    }
+    anterior->prox=no;
+    no->prox=busca;
+    retorno=SUCESSO;
+  }
+  return retorno;
 }
 
-int inserirPorPeso (Celula *inicio,  Celula *novo){
+int inserirPorPeso (Celula *inicio,  Celula *no){
 	//insere ordenado por peso
+   int retorno=FALHA_INSERIR;
+	//testar se a lista estah vazia
+	if (inicio==NULL){
+		inserirNoInicio(inicio,no);		
+		retorno=SUCESSO;
+	}else{
+    Celula* busca=inicio->prox;
+    Celula* anterior=inicio;
+    while((busca!=NULL)&&(no->peso>busca->peso)){
+      anterior=busca;
+      busca=busca->prox;
+    }
+    anterior->prox=no;
+    no->prox=busca;
+    retorno=SUCESSO;
+  }
+  return retorno;
 }
 
-int inserirPorGC (Celula *inicio,  Celula *novo){
-	//insere ordenado por peso
+int inserirPorGC (Celula *inicio,  Celula *no){
+	//insere ordenado por GC
+   int retorno=FALHA_INSERIR;
+	//testar se a lista estah vazia
+	if (inicio==NULL){
+		inserirNoInicio(inicio,no);		
+		retorno=SUCESSO;
+	}else{
+    Celula* busca=inicio->prox;
+    Celula* anterior=inicio;
+    while((busca!=NULL)&&(no->gc>busca->gc)){
+      anterior=busca;
+      busca=busca->prox;
+    }
+    anterior->prox=no;
+    no->prox=busca;
+    retorno=SUCESSO;
+  }
+  return retorno;
 }
 
 int ordenarPorNome(Celula *inicio, int tamanho){
@@ -66,17 +168,17 @@ int encontraValor(char str[], char linha[], int posicao) {
 
 
 // Funcionando, mas faltam as validações.
-int converteLinha(Celula *inicio, char linha[]){
+int converteLinha(Celula *no, char linha[]){
 	int i;
 	int j = 0;
 
-	char nomeLP[TAM];
+	char nome[TAM];
 	char tamanho[TAM];
 	char peso[TAM];
-	char GC[TAM];
+	char gc[TAM];
 
 	// Encontra nome do LP
-	j = encontraValor(nomeLP, linha, j);
+	j = encontraValor(nome, linha, j);
 	
 	// Encontra o tamanho
 	j = encontraValor(tamanho, linha, j);
@@ -86,22 +188,22 @@ int converteLinha(Celula *inicio, char linha[]){
 	j = encontraValor(peso, linha, j);
 	
 	// // Encontra o GC
-	j = encontraValor(GC, linha, j);
+	j = encontraValor(gc, linha, j);
 	
 
 	// Armazena a string na struct
-	strcpy(inicio->nomeLP, nomeLP);
+	strcpy(no->nome, nome);
 	// Converte para Float
-	inicio->tamanho = atof(tamanho);
+	no->tamanho = atof(tamanho);
 	// Converte para Int
-	inicio->peso = atoi(peso);
-	inicio->GC = atoi(GC);
+	no->peso = atoi(peso);
+	no->gc = atoi(gc);
 
 	// Impressoes
-	// printf("nomeLP: %s \n", inicio->nomeLP);
+	// printf("nome: %s \n", inicio->nome);
 	// printf("Tamanho: %f \n", inicio->tamanho);
 	// printf("Peso: %d \n", inicio->peso);
-	// printf("GC: %d \n", inicio->GC);
+	// printf("GC: %d \n", inicio->gc);
 
 	return SUCESSO;
 	
@@ -112,16 +214,18 @@ int extrairDados(Celula *inicio, int *tamanhoArquivo) {
 	Celula *no = NULL;
 	int retorno=SUCESSO;
 	FILE *arquivo;
+	*tamanhoArquivo=0;
 	 
 	arquivo = fopen("GeradorMassaDados.c", "r");
 	//testa se arquivo abriu
 	if(arquivo==NULL){
 		retorno=FALHA_ABRIR_ARQUIVO;
 	//testa se o arquivo esta vazio
-	}else if (arquivo==feof){
+	}else if (feof(arquivo)){
 		retorno=ARQUIVO_VAZIO;
 	}else{
 		while(!feof(arquivo)){
+			*tamanhoArquivo+=1;
 			fgets(linha,TAM,arquivo);
 			no=(Celula*)malloc(sizeof(Celula));
 			//testa alocacao
