@@ -18,6 +18,21 @@ typedef struct no{
 }Celula;
 
 
+int encontraValor(char str[], char linha[], int posicao) {
+	int i;
+
+	for(i = 0; linha[posicao] != ';' && linha[posicao] != '\0'; i++, posicao++) { 
+		str[i] = linha[posicao];
+	}
+
+	str[i++] = '\0';
+	posicao++;
+
+	return posicao;
+}
+
+
+// Funcionando, mas faltam as validações.
 int converteLinha(Celula *inicio, char linha[]){
 	int i;
 	int j = 0;
@@ -27,45 +42,21 @@ int converteLinha(Celula *inicio, char linha[]){
 	char peso[TAM];
 	char GC[TAM];
 
-
-	// Essa funcao pode ser melhorada
-	// Os fors podem virar funcoes que recebam string e inteiros.
-
 	// Encontra nome do LP
-	for(i = 0; linha[j] != ';'; i++, j++) { 
-		nomeLP[i] = linha[j];
-	}
-
-	nomeLP[i++] = '\0';
-	j++;
+	j = encontraValor(nomeLP, linha, j);
 	
 	// Encontra o tamanho
-	for(i = 0; linha[j] != ';'; i++, j++) {
-		tamanho[i] = linha[j];
-	}
+	j = encontraValor(tamanho, linha, j);
+	
 
-	tamanho[i++] = '\0';
-	j++;
+	// // Encontra o Peso
+	j = encontraValor(peso, linha, j);
+	
+	// // Encontra o GC
+	j = encontraValor(GC, linha, j);
+	
 
-	// Encontra o Peso
-	for(i = 0; linha[j] != ';'; i++, j++) {
-		peso[i] = linha[j];
-	}
-
-	peso[i++] = '\0';
-	j++;
-
-
-	// Encontra o GC
-	// ATENCAO '\0' deve ser substituido por '\n' quando for usar arquivo.
-	for(i = 0; linha[j] != ';' && linha[j] != '\0'; i++, j++) {
-		GC[i] = linha[j];
-	}
-
-	GC[i++] = '\0';
-
-	// Conversoes
-
+	// Armazena a string na struct
 	strcpy(inicio->nomeLP, nomeLP);
 	// Converte para Float
 	inicio->tamanho = atof(tamanho);
@@ -73,12 +64,81 @@ int converteLinha(Celula *inicio, char linha[]){
 	inicio->peso = atoi(peso);
 	inicio->GC = atoi(GC);
 
+	// Impressoes
 	printf("nomeLP: %s \n", inicio->nomeLP);
 	printf("Tamanho: %f \n", inicio->tamanho);
 	printf("Peso: %d \n", inicio->peso);
 	printf("GC: %d \n", inicio->GC);
+
+	return SUCESSO;
 	
 }
+
+int inseriOrdenadoPeso(Celula *inicio, int peso) {
+	if(inicio == NULL)
+		return ESTRUTURA_INEXISTENTE;
+
+	Celula *novo = (Celula*)malloc(sizeof(Celula));
+	if(novo == NULL)
+		return SEM_MEMORIA;
+
+}
+
+// Modelo
+// int inserirOrdenado(int valor){
+
+// 	Node *novo = (Node*)malloc(sizeof(Node));
+
+// 	novo->conteudo = valor;
+
+// 	if (cabeca == NULL){
+
+// 		novo->proximo = novo;
+// 		novo->anterior = novo;
+
+// 		cabeca = novo;
+// 		rabo = novo;
+
+// 		return 1;
+	
+// 	}else{
+
+// 		if (cabeca->conteudo > valor){
+
+// 			novo->proximo = cabeca;
+// 			novo->anterior = rabo;
+			
+// 			cabeca->anterior = novo;
+// 			rabo->proximo = novo;
+
+// 			cabeca = novo;
+// 			rabo = novo;
+
+// 			return 1;
+		
+// 		}else{
+
+// 			Node *atual = cabeca;
+// 			Node *ant = atual;
+
+// 			do{
+// 				ant = atual;
+// 				atual = atual->proximo;
+// 			}while(atual != cabeca && atual->conteudo < valor);
+
+// 			//46
+// 			//5
+// 			novo->proximo = atual;
+// 			novo->anterior = atual->anterior;
+// 			atual->anterior = novo;
+// 			ant->proximo = novo;
+
+// 			return 1;
+// 		}
+// 	}
+
+// 	return 0;
+// }
 
 int main() {
 
