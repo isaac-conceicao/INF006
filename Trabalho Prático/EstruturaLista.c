@@ -129,6 +129,9 @@ int inserirPorGC (Celula *inicio,  Celula *no){
   return retorno;
 }
 
+
+// Merge Sort em desenvolvimento na pasta Developer
+
 int ordenarPorNome(Celula *inicio, int tamanho){
 	int retorno=SUCESSO;
 	//ordena a lista por nome
@@ -160,6 +163,10 @@ int encontraValor(char str[], char linha[], int posicao) {
 		str[i] = linha[posicao];
 	}
 
+	if(posicao == 0) {
+		return LISTA_VAZIA;
+	}
+
 	str[i++] = '\0';
 	posicao++;
 
@@ -167,7 +174,15 @@ int encontraValor(char str[], char linha[], int posicao) {
 }
 
 
-// Funcionando, mas faltam as validações.
+// Funcionando
+// VALIDAÇÕES
+/*
+	[x] - Lista Vazia
+	[ ] - Lista sem nome
+	[ ] - Lista sem tamanho
+	[ ] - Lista sem peso
+	[ ] - Lista sem gc
+*/
 int converteLinha(Celula *no, char linha[]){
 	int i;
 	int j = 0;
@@ -180,6 +195,9 @@ int converteLinha(Celula *no, char linha[]){
 	// Encontra nome do LP
 	j = encontraValor(nome, linha, j);
 	
+	if(j == LISTA_VAZIA)
+		return LISTA_VAZIA;
+
 	// Encontra o tamanho
 	j = encontraValor(tamanho, linha, j);
 	

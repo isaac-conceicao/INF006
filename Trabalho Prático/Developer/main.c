@@ -18,7 +18,7 @@ typedef struct no{
 	struct no* prox;
 }Celula;
 
-// GC
+
 Celula* sortedMerge(Celula *a, Celula *b);
 void frontBackSplit(Celula *source,
                     Celula **frontRef, Celula **backRef);
