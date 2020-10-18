@@ -2,149 +2,99 @@
 #include <stdio.h>
 #include <string.h>
 
-
 #define TAM 100
 #define SUCESSO 1
 #define FALHA_ABRIR_ARQUIVO 2
 #define FALHA_ALOCACAO 3
 #define ARQUIVO_VAZIO 4
+#define LISTA_VAZIA 5
+#define FALHA_INSERIR 6
 
 typedef struct no{
 	char nomeLP[TAM];
 	float tamanho;
 	int peso;
-	int GC;
+	int gc;
 	struct no* prox;
 }Celula;
 
+// GC
+Celula* sortedMerge(Celula *a, Celula *b);
+void frontBackSplit(Celula *source,
+                    Celula **frontRef, Celula **backRef);
 
-int encontraValor(char str[], char linha[], int posicao) {
-	int i;
+void mergeSort(Celula *inicio) {
+    Celula *head = inicio;
+    Celula *a;
+    Celula *b;
 
-	for(i = 0; linha[posicao] != ';' && linha[posicao] != '\0'; i++, posicao++) { 
-		str[i] = linha[posicao];
-	}
+    // Caso tamanho 0 ou 1
+    if(head == NULL || head->prox == NULL) {
+        return;
+    }
 
-	str[i++] = '\0';
-	posicao++;
+    frontBackSplit(head, &a, &b);
 
-	return posicao;
+    mergeSort(a);
+    mergeSort(b);
+
+    inicio = sortedMerge(a, b);
+}
+
+Celula *sortedMerge(Celula *a, Celula *b) {
+    Celula *result = NULL;
+
+    if(a == NULL)
+        return (b);
+    else if(b = NULL)
+        return (a);
+
+    // Compara GC
+    if(a->gc <= b->gc) {
+        result = a;
+        result->prox = sortedMerge(a->prox, b);
+    } else {
+        result = b;
+        result->prox = sortedMerge(a, b->prox);
+    }
+    return (result);
+}
+
+void frontBackSplit(Celula *source,
+                    Celula **frontRef, Celula **backRef) 
+{
+    Celula *fast;
+    Celula *slow;
+
+    slow = source;
+    fast = source->prox;
+
+    while(fast != NULL) {
+        fast = fast->prox;
+        if(fast != NULL) {
+            slow = slow->prox;
+            fast = fast->prox;
+        }
+    }
+
+    *frontRef = source;
+    *backRef = slow->prox;
+    slow->prox = NULL;
+
 }
 
 
-// Funcionando, mas faltam as validações.
-int converteLinha(Celula *inicio, char linha[]){
-	int i;
-	int j = 0;
 
-	char nomeLP[TAM];
-	char tamanho[TAM];
-	char peso[TAM];
-	char GC[TAM];
 
-	// Encontra nome do LP
-	j = encontraValor(nomeLP, linha, j);
-	
-	// Encontra o tamanho
-	j = encontraValor(tamanho, linha, j);
-	
 
-	// // Encontra o Peso
-	j = encontraValor(peso, linha, j);
-	
-	// // Encontra o GC
-	j = encontraValor(GC, linha, j);
-	
 
-	// Armazena a string na struct
-	strcpy(inicio->nomeLP, nomeLP);
-	// Converte para Float
-	inicio->tamanho = atof(tamanho);
-	// Converte para Int
-	inicio->peso = atoi(peso);
-	inicio->GC = atoi(GC);
 
-	// Impressoes
-	printf("nomeLP: %s \n", inicio->nomeLP);
-	printf("Tamanho: %f \n", inicio->tamanho);
-	printf("Peso: %d \n", inicio->peso);
-	printf("GC: %d \n", inicio->GC);
 
-	return SUCESSO;
-	
-}
-
-int inseriOrdenadoPeso(Celula *inicio, int peso) {
-	if(inicio == NULL)
-		return ESTRUTURA_INEXISTENTE;
-
-	Celula *novo = (Celula*)malloc(sizeof(Celula));
-	if(novo == NULL)
-		return SEM_MEMORIA;
-
-}
-
-// Modelo
-// int inserirOrdenado(int valor){
-
-// 	Node *novo = (Node*)malloc(sizeof(Node));
-
-// 	novo->conteudo = valor;
-
-// 	if (cabeca == NULL){
-
-// 		novo->proximo = novo;
-// 		novo->anterior = novo;
-
-// 		cabeca = novo;
-// 		rabo = novo;
-
-// 		return 1;
-	
-// 	}else{
-
-// 		if (cabeca->conteudo > valor){
-
-// 			novo->proximo = cabeca;
-// 			novo->anterior = rabo;
-			
-// 			cabeca->anterior = novo;
-// 			rabo->proximo = novo;
-
-// 			cabeca = novo;
-// 			rabo = novo;
-
-// 			return 1;
-		
-// 		}else{
-
-// 			Node *atual = cabeca;
-// 			Node *ant = atual;
-
-// 			do{
-// 				ant = atual;
-// 				atual = atual->proximo;
-// 			}while(atual != cabeca && atual->conteudo < valor);
-
-// 			//46
-// 			//5
-// 			novo->proximo = atual;
-// 			novo->anterior = atual->anterior;
-// 			atual->anterior = novo;
-// 			ant->proximo = novo;
-
-// 			return 1;
-// 		}
-// 	}
-
-// 	return 0;
-// }
 
 int main() {
+    Celula *inicio = NULL;
 
-	char str[TAM] = "Fortaleza;1210.3;5;21";
-	Celula *no = (Celula*)malloc(sizeof(Celula));
+    mergeSort(inicio);
 
-	converteLinha(no, str);
-
+    return 0;
 }
