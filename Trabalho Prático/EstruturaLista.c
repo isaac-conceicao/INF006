@@ -81,14 +81,12 @@ int converteLinha(Celula *inicio, char linha[]){
 	// Encontra o tamanho
 	j = encontraValor(tamanho, linha, j);
 	
-
 	// // Encontra o Peso
 	j = encontraValor(peso, linha, j);
 	
 	// // Encontra o GC
 	j = encontraValor(GC, linha, j);
 	
-
 	// Armazena a string na struct
 	strcpy(inicio->nomeLP, nomeLP);
 	// Converte para Float
