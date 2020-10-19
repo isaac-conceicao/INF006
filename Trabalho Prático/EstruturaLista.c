@@ -222,7 +222,6 @@ int converteLinha(Celula *no, char linha[]){
 	// printf("GC: %d \n", inicio->gc);
 
 	return SUCESSO;
-	
 }
 
 int extrairDados(Celula *inicio, int *tamanhoArquivo) {
@@ -231,8 +230,8 @@ int extrairDados(Celula *inicio, int *tamanhoArquivo) {
 	int retorno=SUCESSO;
 	FILE *arquivo;
 	*tamanhoArquivo=0;
-	 
-	arquivo = fopen("GeradorMassaDados.c", "r");
+	//printf("Abrindo arquivo...\n"); 
+	arquivo = fopen("maDados.txt", "r");
 	//testa se arquivo abriu
 	if(arquivo==NULL){
 		retorno=FALHA_ABRIR_ARQUIVO;
@@ -265,26 +264,113 @@ int extrairDados(Celula *inicio, int *tamanhoArquivo) {
 	return retorno;
 }
 
-int buscarPorNome(Celula* inicio, char *nome){
+int buscarPorNome(Celula* inicio, char* nome, Celula* resultado){
 	int retorno=SUCESSO;
-	//
+	Celula* busca=inicio;
+  
+  //verifica se a lista está vazia
+  if(inicio==NULL){
+    retorno = LISTA_VAZIA;
+    resultado=NULL;
+  }else{
+    //busca enquanto lista não acaba ou acha o 1º nome correspondente
+    while((busca!=NULL)&&(strcmp(nome,busca->nome)!=0)){
+      busca=busca->prox;
+    }
+    resultado=busca;
+    //verifica se a busca reotrnou nulo
+    if (resultado==NULL){
+      retorno = NAO_ENCONTRADO;
+    }
+  }
 	return retorno;
 }
 
-int buscarPorTamanho(Celula* inicio, float tamanho){
+int buscarPorTamanho(Celula* inicio, float tamanho, Celula* resultado){
 	int retorno=SUCESSO;
-	//
+	Celula* busca=inicio;
+  
+  //verifica se a lista está vazia
+  if(inicio==NULL){
+    retorno = LISTA_VAZIA;
+    resultado=NULL;
+  }else{
+    //busca enquanto lista não acaba ou acha o 1º tamanho correspondente
+    while((busca!=NULL)&&(busca->tamanho!=tamanho)){
+      busca=busca->prox;
+    }
+    resultado=busca;
+    //verifica se a busca reotrnou nulo
+    if (busca==NULL){
+      retorno = NAO_ENCONTRADO;
+    }
+  }
 	return retorno;
 }
 
-int buscarPorPeso(Celula* inicio, int peso){
+int buscarPorPeso(Celula* inicio, int peso, Celula* resultado){
 	int retorno=SUCESSO;
-	//
+	Celula* busca=inicio;
+  
+  //verifica se a lista está vazia
+  if(inicio==NULL){
+    retorno = LISTA_VAZIA;
+    resultado=NULL;
+  }else{
+    //busca enquanto lista não acaba ou acha o 1º peso correspondente
+    while((busca!=NULL)&&(busca->peso!=peso)){
+      busca=busca->prox;
+    }
+    resultado=busca;
+    //verifica se a busca reotrnou nulo
+    if (busca==NULL){
+      retorno = NAO_ENCONTRADO;
+    }
+  }
 	return retorno;
 }
 
-int buscarPorGC(Celula* inicio, int GC){
+int buscarPorGC(Celula* inicio, int gc, Celula* resultado){
 	int retorno=SUCESSO;
-	//
+	Celula* busca=inicio;
+  
+  //verifica se a lista está vazia
+  if(inicio==NULL){
+    retorno = LISTA_VAZIA;
+    resultado=NULL;
+  }else{
+    //busca enquanto lista não acaba ou acha o 1º GC correspondente
+    while((busca!=NULL)&&(busca->gc!=gc)){
+      busca=busca->prox;
+    }
+    resultado=busca;
+    //verifica se a busca reotrnou nulo
+    if (busca==NULL){
+      retorno = NAO_ENCONTRADO;
+    }
+  }
 	return retorno;
+}
+
+void imprimeLista(Celula* inicio){
+  //testa se a lista esta vazia
+  if(inicio==NULL)
+    printf("!ERRO_LISTA_VAZIA!");
+  else{
+    Celula* busca=inicio;
+    while(busca!=NULL){
+      printf("%s;%.2f;%d;%d\n",busca->nome,busca->tamanho,busca->peso,busca->gc);
+      system("PAUSE");
+    }
+  }
+}
+
+void destruirLista(Celula* inicio){
+  Celula* anterior;
+  
+  while(inicio!=NULL){
+    anterior=inicio;
+    inicio=inicio->prox;
+    free(anterior);
+  }
 }
