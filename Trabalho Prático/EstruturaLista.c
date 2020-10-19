@@ -3,8 +3,15 @@
 #include <string.h>
 #include "EstruturaLista.h"
 
+int ligado = SHOW_LOG;
+void show_log(char *str){
+    if (ligado)
+        printf("##%s##\n", str);
+}
+
+//insere um novo registro no inicio da lista
 int inserirNoInicio (Celula *inicio,  Celula *no){
-	//insere um novo registro no inicio da lista
+  show_log("inserirNoInicio()");
   int retorno=FALHA_INSERIR;
 	//testar se a lista estah vazia
 	if (inicio==NULL){
@@ -23,11 +30,11 @@ int inserirNoInicio (Celula *inicio,  Celula *no){
 }
 
 int inserirNoFim (Celula *inicio, Celula *no){
+  show_log("inserirNoFim()");
 	int retorno=FALHA_INSERIR;
 	//testar se a lista estah vazia
 	if (inicio==NULL){
-		inserirNoInicio(inicio,no);
-		retorno=SUCESSO;
+		retorno=inserirNoInicio(inicio,no);
 	}else{
 		Celula* busca=inicio;
 		//buscar o fim da lista
@@ -44,6 +51,7 @@ int inserirNoFim (Celula *inicio, Celula *no){
 }
 
 int inserirPorNome (Celula *inicio,  Celula *no){
+  show_log("inserirPorNome()");
 	//insere ordenado por nome
   int retorno=FALHA_INSERIR;
 	//testar se a lista estah vazia
@@ -67,6 +75,7 @@ int inserirPorNome (Celula *inicio,  Celula *no){
 }
 
 int inserirPorTamanho (Celula *inicio,  Celula *no){
+  show_log("inserirPorTamanho()");
 	//insere ordenado por tamanho
   int retorno=FALHA_INSERIR;
 	//testar se a lista estah vazia
@@ -88,7 +97,7 @@ int inserirPorTamanho (Celula *inicio,  Celula *no){
 }
 
 int inserirPorPeso (Celula *inicio,  Celula *no){
-	//insere ordenado por peso
+	show_log("inserirPorPeso()");
    int retorno=FALHA_INSERIR;
 	//testar se a lista estah vazia
 	if (inicio==NULL){
@@ -109,7 +118,7 @@ int inserirPorPeso (Celula *inicio,  Celula *no){
 }
 
 int inserirPorGC (Celula *inicio,  Celula *no){
-	//insere ordenado por GC
+	show_log("inserirPorGC()");
    int retorno=FALHA_INSERIR;
 	//testar se a lista estah vazia
 	if (inicio==NULL){
@@ -133,31 +142,43 @@ int inserirPorGC (Celula *inicio,  Celula *no){
 // Merge Sort em desenvolvimento na pasta Developer
 
 int ordenarPorNome(Celula *inicio, int tamanho){
-	int retorno=SUCESSO;
+	show_log("ordenarPorNome()");
+  int retorno=SUCESSO;
 	//ordena a lista por nome
+  mergeSortNome(inicio);
+  
+
 	return retorno;
 }
 
 int ordenarPorTamanho(Celula *inicio, int tamanho){
-	int retorno=SUCESSO;
+	show_log("ordenarPorTamanho()");
+  int retorno=SUCESSO;
 	//ordena a lista por tamanho
+  mergeSortTamanho(inicio);
 	return retorno;
 }
 
 int ordenarPorPeso(Celula *inicio, int tamanho){
-	int retorno=SUCESSO;
+	show_log("ordenarPorPeso()");
+  int retorno=SUCESSO;
 	//ordena a lista por peso
+  mergeSortPeso(inicio);
 	return retorno;
 }
 
 int ordenarPorGC(Celula *inicio, int tamanho){
-	int retorno=SUCESSO;
+	show_log("ordenarPorGC()");
+  int retorno=SUCESSO;
 	//ordena a lista por GC
+  mergeSortGC(inicio);
+
 	return retorno;
 }
 
 int encontraValor(char str[], char linha[], int posicao) {
-	int i;
+	show_log("encontraValor()");
+  int i;
 
 	for(i = 0; linha[posicao] != ';' && linha[posicao] != '\n'; i++, posicao++) { 
 		str[i] = linha[posicao];
@@ -184,7 +205,8 @@ int encontraValor(char str[], char linha[], int posicao) {
 	[ ] - Lista sem gc
 */
 int converteLinha(Celula *no, char linha[]){
-	int i;
+	show_log("converteLinha()");
+  int i;
 	int j = 0;
 
 	char nome[TAM];
@@ -216,44 +238,60 @@ int converteLinha(Celula *no, char linha[]){
 	no->gc = atoi(gc);
 
 	// Impressoes
-	// printf("nome: %s \n", inicio->nome);
-	// printf("Tamanho: %f \n", inicio->tamanho);
-	// printf("Peso: %d \n", inicio->peso);
-	// printf("GC: %d \n", inicio->gc);
+	// printf("nome: %s \n", no->nome);
+	// printf("Tamanho: %f \n", no->tamanho);
+	// printf("Peso: %d \n", no->peso);
+	// printf("GC: %d \n", no->gc);
 
 	return SUCESSO;
 }
 
 int extrairDados(Celula *inicio, int *tamanhoArquivo) {
-	char linha[TAM];
+	show_log("extrairDados()");
+  char linha[TAM];
 	Celula *no = NULL;
 	int retorno=SUCESSO;
 	FILE *arquivo;
 	*tamanhoArquivo=0;
-	//printf("Abrindo arquivo...\n"); 
+  show_log("Abrindo maDados.txt..."); 
 	arquivo = fopen("maDados.txt", "r");
 	//testa se arquivo abriu
 	if(arquivo==NULL){
+    show_log("ERRO_FALHA_ABRIR_ARQUIVO");
 		retorno=FALHA_ABRIR_ARQUIVO;
 	//testa se o arquivo esta vazio
 	}else if (feof(arquivo)){
+    show_log("ERRO_ARQUIVO_VAZIO");
 		retorno=ARQUIVO_VAZIO;
 	}else{
 		while(!feof(arquivo)){
 			*tamanhoArquivo+=1;
+      show_log("Lendo linha %d...");
 			fgets(linha,TAM,arquivo);
 			no=(Celula*)malloc(sizeof(Celula));
 			//testa alocacao
 			if(no==NULL){
+        show_log("ERRO_FALHA_ALOCACAO");
 				retorno=FALHA_ALOCACAO;
 			}else{
 				no->prox=NULL;
-				//converter linha
+        //converter linha
+        show_log("Convertendo linha...");
 				retorno=converteLinha(no,linha);
 				//testa conversao da linha
-				if(retorno==SUCESSO)
-					//insere na lista
-					retorno=inserirNoFim(inicio, no);
+				if(retorno==SUCESSO){
+					show_log("Linha convertida com sucesso!");
+          //insere na lista
+          show_log("Linha convertida com sucesso!");
+				  retorno=inserirNoFim(inicio, no);
+          //se a inserção falhar destruir a lista toda
+          if(retorno==FALHA_INSERIR){
+            show_log("ERRO_FALHA_INSERIR");
+            destruirLista(inicio);
+            free(no);
+            break;
+          }
+        }
 				else{
 					free(no);
 					break;
@@ -265,7 +303,8 @@ int extrairDados(Celula *inicio, int *tamanhoArquivo) {
 }
 
 int buscarPorNome(Celula* inicio, char* nome, Celula* resultado){
-	int retorno=SUCESSO;
+	show_log("buscarPorNome()");
+  int retorno=SUCESSO;
 	Celula* busca=inicio;
   
   //verifica se a lista está vazia
@@ -287,7 +326,8 @@ int buscarPorNome(Celula* inicio, char* nome, Celula* resultado){
 }
 
 int buscarPorTamanho(Celula* inicio, float tamanho, Celula* resultado){
-	int retorno=SUCESSO;
+	show_log("buscarPorTamanho()");
+  int retorno=SUCESSO;
 	Celula* busca=inicio;
   
   //verifica se a lista está vazia
@@ -309,7 +349,8 @@ int buscarPorTamanho(Celula* inicio, float tamanho, Celula* resultado){
 }
 
 int buscarPorPeso(Celula* inicio, int peso, Celula* resultado){
-	int retorno=SUCESSO;
+	show_log("buscarPorPeso()");
+  int retorno=SUCESSO;
 	Celula* busca=inicio;
   
   //verifica se a lista está vazia
@@ -331,7 +372,8 @@ int buscarPorPeso(Celula* inicio, int peso, Celula* resultado){
 }
 
 int buscarPorGC(Celula* inicio, int gc, Celula* resultado){
-	int retorno=SUCESSO;
+	show_log(" buscarPorGC()");
+  int retorno=SUCESSO;
 	Celula* busca=inicio;
   
   //verifica se a lista está vazia
@@ -353,24 +395,283 @@ int buscarPorGC(Celula* inicio, int gc, Celula* resultado){
 }
 
 void imprimeLista(Celula* inicio){
+  show_log("imprimeLista()");
+  int* x;
   //testa se a lista esta vazia
   if(inicio==NULL)
-    printf("!ERRO_LISTA_VAZIA!");
+    show_log("ERRO_LISTA_VAZIA");
   else{
     Celula* busca=inicio;
     while(busca!=NULL){
       printf("%s;%.2f;%d;%d\n",busca->nome,busca->tamanho,busca->peso,busca->gc);
-      system("PAUSE");
+      scanf("%d",x);
     }
   }
 }
 
 void destruirLista(Celula* inicio){
+  show_log("destruirLista()");
   Celula* anterior;
-  
-  while(inicio!=NULL){
-    anterior=inicio;
-    inicio=inicio->prox;
-    free(anterior);
+  //checar se a lista exite
+  if(inicio==NULL){
+    show_log("ERRO_LISTA_VAZIA");
+  }else{
+    while(inicio!=NULL){
+      anterior=inicio;
+      inicio=inicio->prox;
+      free(anterior);
+    }
   }
 }
+
+
+// MergeSort Nome
+Celula *sortedMergeNome(Celula *a, Celula *b) {
+    Celula *result = NULL;
+
+    if(a == NULL)
+        return (b);
+    else if(b = NULL)
+        return (a);
+
+    // Compara Nome
+    if(strcmp(a->nome, b->nome) <= 0) {
+        result = a;
+        result->prox = sortedMergeNome(a->prox, b);
+    } else {
+        result = b;
+        result->prox = sortedMergeNome(a, b->prox);
+    }
+    return (result);
+}
+
+void frontBackSplitNome(Celula *source,
+                    Celula **frontRef, Celula **backRef) 
+{
+    Celula *fast;
+    Celula *slow;
+
+    slow = source;
+    fast = source->prox;
+
+    while(fast != NULL) {
+        fast = fast->prox;
+        if(fast != NULL) {
+            slow = slow->prox;
+            fast = fast->prox;
+        }
+    }
+
+    *frontRef = source;
+    *backRef = slow->prox;
+    slow->prox = NULL;
+
+}
+
+void mergeSortNome(Celula *inicio) {
+    Celula *head = inicio;
+    Celula *a;
+    Celula *b;
+
+    // Caso tamanho 0 ou 1
+    if(head == NULL || head->prox == NULL) {
+        return;
+    }
+
+    frontBackSplitNome(head, &a, &b);
+
+    mergeSortNome(a);
+    mergeSortNome(b);
+
+    inicio = sortedMergeNome(a, b);
+}
+
+// MergeSort Tamanho
+Celula *sortedMergeTamanho(Celula *a, Celula *b) {
+    Celula *result = NULL;
+
+    if(a == NULL)
+        return (b);
+    else if(b = NULL)
+        return (a);
+
+    // Compara Tamanho
+    if(a->tamanho <= b->tamanho) {
+        result = a;
+        result->prox = sortedMergeTamanho(a->prox, b);
+    } else {
+        result = b;
+        result->prox = sortedMergeTamanho(a, b->prox);
+    }
+    return (result);
+}
+
+void frontBackSplitTamanho(Celula *source,
+                    Celula **frontRef, Celula **backRef) 
+{
+    Celula *fast;
+    Celula *slow;
+
+    slow = source;
+    fast = source->prox;
+
+    while(fast != NULL) {
+        fast = fast->prox;
+        if(fast != NULL) {
+            slow = slow->prox;
+            fast = fast->prox;
+        }
+    }
+
+    *frontRef = source;
+    *backRef = slow->prox;
+    slow->prox = NULL;
+
+}
+
+void mergeSortTamanho(Celula *inicio) {
+    Celula *head = inicio;
+    Celula *a;
+    Celula *b;
+
+    // Caso tamanho 0 ou 1
+    if(head == NULL || head->prox == NULL) {
+        return;
+    }
+
+    frontBackSplitTamanho(head, &a, &b);
+
+    mergeSortTamanho(a);
+    mergeSortTamanho(b);
+
+    inicio = sortedMergeTamanho(a, b);
+}
+
+// MergeSort Peso
+Celula *sortedMergePeso(Celula *a, Celula *b) {
+    Celula *result = NULL;
+
+    if(a == NULL)
+        return (b);
+    else if(b = NULL)
+        return (a);
+
+    // Compara Peso
+    if(a->peso <= b->peso) {
+        result = a;
+        result->prox = sortedMergePeso(a->prox, b);
+    } else {
+        result = b;
+        result->prox = sortedMergePeso(a, b->prox);
+    }
+    return (result);
+}
+
+void frontBackSplitPeso(Celula *source,
+                    Celula **frontRef, Celula **backRef) 
+{
+    Celula *fast;
+    Celula *slow;
+
+    slow = source;
+    fast = source->prox;
+
+    while(fast != NULL) {
+        fast = fast->prox;
+        if(fast != NULL) {
+            slow = slow->prox;
+            fast = fast->prox;
+        }
+    }
+
+    *frontRef = source;
+    *backRef = slow->prox;
+    slow->prox = NULL;
+
+}
+
+void mergeSortPeso(Celula *inicio) {
+    Celula *head = inicio;
+    Celula *a;
+    Celula *b;
+
+    // Caso tamanho 0 ou 1
+    if(head == NULL || head->prox == NULL) {
+        return;
+    }
+
+    frontBackSplitPeso(head, &a, &b);
+
+    mergeSortPeso(a);
+    mergeSortPeso(b);
+
+    inicio = sortedMergePeso(a, b);
+}
+
+
+
+
+
+
+
+// MergeSort GC
+Celula *sortedMergeGC(Celula *a, Celula *b) {
+    Celula *result = NULL;
+
+    if(a == NULL)
+        return (b);
+    else if(b = NULL)
+        return (a);
+
+    // Compara GC
+    if(a->gc <= b->gc) {
+        result = a;
+        result->prox = sortedMergeGC(a->prox, b);
+    } else {
+        result = b;
+        result->prox = sortedMergeGC(a, b->prox);
+    }
+    return (result);
+}
+
+void frontBackSplitGC(Celula *source,
+                    Celula **frontRef, Celula **backRef) 
+{
+    Celula *fast;
+    Celula *slow;
+
+    slow = source;
+    fast = source->prox;
+
+    while(fast != NULL) {
+        fast = fast->prox;
+        if(fast != NULL) {
+            slow = slow->prox;
+            fast = fast->prox;
+        }
+    }
+
+    *frontRef = source;
+    *backRef = slow->prox;
+    slow->prox = NULL;
+
+}
+
+void mergeSortGC(Celula *inicio) {
+    Celula *head = inicio;
+    Celula *a;
+    Celula *b;
+
+    // Caso tamanho 0 ou 1
+    if(head == NULL || head->prox == NULL) {
+        return;
+    }
+
+    frontBackSplitGC(head, &a, &b);
+
+    mergeSortGC(a);
+    mergeSortGC(b);
+
+    inicio = sortedMergeGC(a, b);
+}
+

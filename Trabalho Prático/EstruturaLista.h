@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// COLOQUE NEGATIVO PARA NÃO DAR CONFLITO COM OUTRA FUNCAO
+// COLOQUEI NEGATIVO PARA NÃO DAR CONFLITO COM OUTRA FUNCAO
+#define SHOW_LOG 1 //alterar para 0 para ocultar os logs
 #define TAM 100
 #define SUCESSO -1
 #define FALHA_ABRIR_ARQUIVO -2
@@ -19,6 +20,7 @@ typedef struct no{
 	struct no* prox;
 }Celula;
 
+void show_log(char *str);
 int inserirNoInicio (Celula* inicio,  Celula* no);
 int inserirNoFim (Celula* inicio, Celula* no);
 int inserirPorNome (Celula* inicio,  Celula* no);
@@ -38,3 +40,24 @@ int buscarPorPeso (Celula* inicio, int peso, Celula* resultado);
 int buscarPorGC (Celula* inicio, int gc, Celula* resultado);
 void imprimeLista(Celula* inicio);
 void destruirLista(Celula* inicio);
+
+// MergeSort
+Celula *sortedMergeNome(Celula *a, Celula *b);
+void frontBackSplitNome(Celula *source,
+                    Celula **frontRef, Celula **backRef);
+void mergeSortNome(Celula *inicio); 
+
+Celula *sortedMergeTamanho(Celula *a, Celula *b);
+void frontBackSplitTamanho(Celula *source,
+                    Celula **frontRef, Celula **backRef);
+void mergeSortTamanho(Celula *inicio); 
+
+Celula *sortedMergePeso(Celula *a, Celula *b);
+void frontBackSplitPeso(Celula *source,
+                    Celula **frontRef, Celula **backRef);
+void mergeSortPeso(Celula *inicio); 
+
+Celula *sortedMergeGC(Celula *a, Celula *b);
+void frontBackSplitGC(Celula *source,
+                    Celula **frontRef, Celula **backRef);
+void mergeSortGC(Celula *inicio); 
