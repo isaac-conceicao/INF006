@@ -9,6 +9,7 @@
 #define ARQUIVO_VAZIO -4
 #define LISTA_VAZIA -5
 #define FALHA_INSERIR -6
+#define NAO_ENCONTRADO -7
 
 typedef struct no{
 	char nome[TAM];
@@ -31,7 +32,9 @@ int ordenarPorGC (Celula* inicio, int tamanho);
 int encontraValor(char str[], char linha[], int posicao);
 int converteLinha (Celula* no,char* linha);
 int extrairDados (Celula* inicio, int* tamanhoArquivo);
-int buscarPorNome (Celula* inicio, char* nome);
-int buscarPorTamanho (Celula* inicio, float tamanho);
-int buscarPorPeso (Celula* inicio, int peso);
-int buscarPorGC (Celula* inicio, int GC);
+int buscarPorNome (Celula* inicio, char* nome, Celula* resultado);
+int buscarPorTamanho (Celula* inicio, float tamanho, Celula* resultado);
+int buscarPorPeso (Celula* inicio, int peso, Celula* resultado);
+int buscarPorGC (Celula* inicio, int gc, Celula* resultado);
+void imprimeLista(Celula* inicio);
+void destruirLista(Celula* inicio);
