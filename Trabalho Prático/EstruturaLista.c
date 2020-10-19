@@ -246,61 +246,61 @@ int converteLinha(Celula *no, char linha[]){
 	return SUCESSO;
 }
 
-int extrairDados(Celula *inicio, int *tamanhoArquivo) {
-	show_log("extrairDados()");
-  char linha[TAM];
-	Celula *no = NULL;
-	int retorno=SUCESSO;
-	FILE *arquivo;
-	*tamanhoArquivo=0;
-  show_log("Abrindo maDados.txt..."); 
-	arquivo = fopen("maDados.txt", "r");
-	//testa se arquivo abriu
-	if(arquivo==NULL){
-    show_log("ERRO_FALHA_ABRIR_ARQUIVO");
-		retorno=FALHA_ABRIR_ARQUIVO;
-	//testa se o arquivo esta vazio
-	}else if (feof(arquivo)){
-    show_log("ERRO_ARQUIVO_VAZIO");
-		retorno=ARQUIVO_VAZIO;
-	}else{
-		while(!feof(arquivo)){
-			*tamanhoArquivo+=1;
-      show_log("Lendo linha %d...");
-			fgets(linha,TAM,arquivo);
-			no=(Celula*)malloc(sizeof(Celula));
-			//testa alocacao
-			if(no==NULL){
-        show_log("ERRO_FALHA_ALOCACAO");
-				retorno=FALHA_ALOCACAO;
-			}else{
-				no->prox=NULL;
-        //converter linha
-        show_log("Convertendo linha...");
-				retorno=converteLinha(no,linha);
-				//testa conversao da linha
-				if(retorno==SUCESSO){
-					show_log("Linha convertida com sucesso!");
-          //insere na lista
-          show_log("Linha convertida com sucesso!");
-				  retorno=inserirNoFim(inicio, no);
-          //se a inserção falhar destruir a lista toda
-          if(retorno==FALHA_INSERIR){
-            show_log("ERRO_FALHA_INSERIR");
-            destruirLista(inicio);
-            free(no);
-            break;
-          }
-        }
-				else{
-					free(no);
-					break;
-				}
-			}
-		}
-	}
-	return retorno;
-}
+// int extrairDados(Celula *inicio, int *tamanhoArquivo) {
+// 	show_log("extrairDados()");
+//   char linha[TAM];
+// 	Celula *no = NULL;
+// 	int retorno=SUCESSO;
+// 	FILE *arquivo;
+// 	*tamanhoArquivo=0;
+//   show_log("Abrindo maDados.txt..."); 
+// 	arquivo = fopen("maDados.txt", "r");
+// 	//testa se arquivo abriu
+// 	if(arquivo==NULL){
+//     show_log("ERRO_FALHA_ABRIR_ARQUIVO");
+// 		retorno=FALHA_ABRIR_ARQUIVO;
+// 	//testa se o arquivo esta vazio
+// 	}else if (feof(arquivo)){
+//     show_log("ERRO_ARQUIVO_VAZIO");
+// 		retorno=ARQUIVO_VAZIO;
+// 	}else{
+// 		while(!feof(arquivo)){
+// 			*tamanhoArquivo+=1;
+//       show_log("Lendo linha %d...");
+// 			fgets(linha,TAM,arquivo);
+// 			no=(Celula*)malloc(sizeof(Celula));
+// 			//testa alocacao
+// 			if(no==NULL){
+//         show_log("ERRO_FALHA_ALOCACAO");
+// 				retorno=FALHA_ALOCACAO;
+// 			}else{
+// 				no->prox=NULL;
+//         //converter linha
+//         show_log("Convertendo linha...");
+// 				retorno=converteLinha(no,linha);
+// 				//testa conversao da linha
+// 				if(retorno==SUCESSO){
+// 					show_log("Linha convertida com sucesso!");
+//           //insere na lista
+//           show_log("Linha convertida com sucesso!");
+// 				  retorno=inserirNoFim(inicio, no);
+//           //se a inserção falhar destruir a lista toda
+//           if(retorno==FALHA_INSERIR){
+//             show_log("ERRO_FALHA_INSERIR");
+//             destruirLista(inicio);
+//             free(no);
+//             break;
+//           }
+//         }
+// 				else{
+// 					free(no);
+// 					break;
+// 				}
+// 			}
+// 		}
+// 	}
+// 	return retorno;
+// }
 
 int buscarPorNome(Celula* inicio, char* nome, Celula* resultado){
 	show_log("buscarPorNome()");
@@ -423,6 +423,49 @@ void destruirLista(Celula* inicio){
     }
   }
 }
+
+
+int ExcluirPorNome(Celula* inicio, char* nome){
+  show_log("ExcluirPorNome()");
+  int retorno=SUCESSO;
+  Celula* busca=inicio;
+  Celula* anterior = busca;
+  
+  //verifica se a lista está vazia
+  if(inicio==NULL){
+    retorno = LISTA_VAZIA;
+  }else{
+    //busca enquanto lista não acaba ou acha o 1º nome correspondente
+    while((busca!=NULL)&&(strcmp(nome,busca->nome)!=0)){
+      anterior = busca;
+      busca=busca->prox;
+    }
+
+    //verifica se a busca retornou nulo
+    if(busca != NULL) {
+      anterior->prox = busca->prox;
+      free(anterior);
+    }
+  }
+  return retorno;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // MergeSort Nome
